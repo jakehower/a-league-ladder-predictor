@@ -71,7 +71,7 @@ def create_ladder_image(ladder):
     ax.axis('off')
     
     # Create a table from the DataFrame
-    tbl = table(ax, ladder, loc='center', cellLoc='center', colWidths=[0.2] * len(ladder.columns))
+    tbl = table(ax, ladder.values, loc='center', colLabels=ladder.columns, cellLoc='center', colWidths=[0.2] * len(ladder.columns))
     tbl.auto_set_font_size(False)
     tbl.set_fontsize(10)
     tbl.scale(1.2, 1.2)  # Adjust scaling as needed
