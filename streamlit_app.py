@@ -99,6 +99,9 @@ for round_number in range(rounds):
             away_score = st.number_input(f"{away_team} Score", min_value=0, step=1, format="%d", key=f"away_{round_number}_{index}")
         
         user_results.append((home_team, away_team, home_score, away_score))
+        
+        # Add a divider after each game
+        st.markdown("---")  # Horizontal line
 
 # Button to update the ladder
 if st.button("Update Ladder"):
@@ -109,4 +112,4 @@ if st.button("Update Ladder"):
 
     # Set the index to start from 1
     sorted_ladder.index += 1  # Start index from 1
-    st.dataframe(sorted_ladder, height=500) 
+    st.dataframe(sorted_ladder, height=500)  # Set height to accommodate all teams
