@@ -76,7 +76,7 @@ def sort_ladder():
 st.title("A-League Ladder Predictor")
 
 # User input for expected results
-rounds = st.number_input("Enter number of rounds:", min_value=1, max_value=10)
+rounds = st.number_input("Enter number of rounds to simulate:", min_value=1, max_value=10)
 
 user_results = []
 for round_number in range(rounds):
