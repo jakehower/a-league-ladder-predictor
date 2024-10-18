@@ -108,4 +108,4 @@ if st.button("Update Ladder"):
     sorted_ladder = sort_ladder()
 
     # Display all teams without the extra index column
-    st.dataframe(sorted_ladder.reset_index(drop=True).style.hide_index(), height=500)  # Set height to accommodate all teams
+    st.dataframe(sorted_ladder.style.hide_index(), height=500)  # Set height to accommodate all teams
