@@ -67,14 +67,28 @@ st.title("A-League Ladder Predictor")
 
 # User input for expected results
 rounds = st.number_input("Enter number of rounds:", min_value=1, max_value=10)
+
 user_results = []
 for round_number in range(rounds):
     st.subheader(f"Round {round_number + 1}")
-    home_team = st.selectbox(f"Select Home Team for Round {round_number + 1}", teams)
-    away_team = st.selectbox(f"Select Away Team for Round {round_number + 1}", teams)
-    home_score = st.number_input(f"{home_team} Score", min_value=0)
-    away_score = st.number_input(f"{away_team} Score", min_value=0)
-    user_results.append((home_team, away_team, home_score, away_score))
+    
+    # Get fixtures for the selected round
+    round_fixtures = fixtures[fixtures['Round Number'] == round_number + 1]
+    
+    for index, match in round_fixtures.iterrows():
+        home_team = match['Home Team']
+        away_team = match['Away Team']
+        
+        # Create two columns for scores
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            home_score = st.number_input(f"{home_team} Score", min_value=0, step=1, format="%d", key=f"home_{index}")
+        
+        with col2:
+            away_score = st.number_input(f"{away_team} Score", min_value=0, step=1, format="%d", key=f"away_{index}")
+        
+        user_results.append((home_team, away_team, home_score, away_score))
 
 # Button to update the ladder
 if st.button("Update Ladder"):
