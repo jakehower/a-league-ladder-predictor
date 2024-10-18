@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import table
 
 # Load the fixture CSV
 fixtures = pd.read_csv('aleague-men-2024-UTC.csv')
@@ -62,6 +64,22 @@ def update_ladder(user_results):
         # Update Goal Difference
         ladder['GD'] = ladder['GF'] - ladder['GA']
 
+# Function to create a table image
+def create_ladder_image(ladder):
+    fig, ax = plt.subplots(figsize=(10, len(ladder) * 0.5))  # Adjust size as needed
+    ax.axis('tight')
+    ax.axis('off')
+    
+    # Create a table from the DataFrame
+    tbl = table(ax, ladder, loc='center', cellLoc='center', colWidths=[0.2] * len(ladder.columns))
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(10)
+    tbl.scale(1.2, 1.2)  # Adjust scaling as needed
+
+    # Save the image
+    plt.savefig("ladder_image.png", bbox_inches='tight', dpi=300)
+    plt.close(fig)
+
 # Streamlit UI
 st.title("A-League Ladder Predictor")
 
@@ -94,6 +112,10 @@ for round_number in range(rounds):
 if st.button("Update Ladder"):
     update_ladder(user_results)
     st.write(ladder.sort_values(by='PTS', ascending=False))
+
+    # Create and display the ladder image
+    create_ladder_image(ladder)
+    st.image("ladder_image.png", caption="Updated A-League Ladder", use_column_width=True)
 
 # Option to share the ladder (this can be improved later)
 st.markdown("Share your predictions on social media!")
