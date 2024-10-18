@@ -63,22 +63,6 @@ def update_ladder(user_results):
         # Update Goal Difference
         ladder['GD'] = ladder['GF'] - ladder['GA']
 
-# Function to create a table image
-def create_ladder_image(ladder):
-    fig, ax = plt.subplots(figsize=(10, len(ladder) * 0.5))  # Adjust size as needed
-    ax.axis('tight')
-    ax.axis('off')
-    
-    # Create a table from the DataFrame
-    tbl = ax.table(cellText=ladder.values, colLabels=ladder.columns, loc='center', cellLoc='center', colWidths=[0.2] * len(ladder.columns))
-    tbl.auto_set_font_size(False)
-    tbl.set_fontsize(10)
-    tbl.scale(1.2, 1.2)  # Adjust scaling as needed
-
-    # Save the image
-    plt.savefig("ladder_image.png", bbox_inches='tight', dpi=300)
-    plt.close(fig)
-
 # Streamlit UI
 st.title("A-League Ladder Predictor")
 
@@ -110,11 +94,16 @@ for round_number in range(rounds):
 # Button to update the ladder
 if st.button("Update Ladder"):
     update_ladder(user_results)
-    st.write(ladder.sort_values(by='PTS', ascending=False))
+    
+    # Display the updated ladder as a styled DataFrame
+    st.dataframe(ladder.sort_values(by='PTS', ascending=False))
 
-    # Create and display the ladder image
+    # Create the ladder image for sharing
     create_ladder_image(ladder)
-    st.image("ladder_image.png", caption="Updated A-League Ladder", use_column_width=True)
 
-# Option to share the ladder (this can be improved later)
-st.markdown("Share your predictions on social media!")
+    # Share button for X.com
+    image_url = "ladder_image.png"  # Path to the saved image
+    tweet_text = "Check out my A-League ladder predictions! #ALeague"
+    tweet_url = f"https://x.com/intent/tweet?text={tweet_text}&url={image_url}"
+
+    st.markdown(f"[Share on X.com](https://x.com/intent/tweet?text={tweet_text})", unsafe_allow_html=True)
