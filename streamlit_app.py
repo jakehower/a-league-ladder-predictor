@@ -109,4 +109,4 @@ if st.button("Update Ladder"):
 
     # Set the index to start from 1
     sorted_ladder.index += 1  # Start index from 1
-    st.dataframe(sorted_ladder, height=500)  # Set height to accommodate all teams
+    st.dataframe(sorted_ladder, height=500) 
