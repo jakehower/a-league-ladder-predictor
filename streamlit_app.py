@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Load the fixture CSV
 fixtures = pd.read_csv('aleague-men-2024-UTC.csv')
@@ -98,12 +97,8 @@ if st.button("Update Ladder"):
     # Display the updated ladder as a styled DataFrame
     st.dataframe(ladder.sort_values(by='PTS', ascending=False))
 
-    # Create the ladder image for sharing
-    create_ladder_image(ladder)
-
     # Share button for X.com
-    image_url = "ladder_image.png"  # Path to the saved image
     tweet_text = "Check out my A-League ladder predictions! #ALeague"
-    tweet_url = f"https://x.com/intent/tweet?text={tweet_text}&url={image_url}"
+    tweet_url = f"https://x.com/intent/tweet?text={tweet_text}"
 
     st.markdown(f"[Share on X.com](https://x.com/intent/tweet?text={tweet_text})", unsafe_allow_html=True)
