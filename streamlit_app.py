@@ -102,3 +102,4 @@ if st.button("Update Ladder"):
     tweet_url = f"https://x.com/intent/tweet?text={tweet_text}"
 
     st.markdown(f"[Share on X.com](https://x.com/intent/tweet?text={tweet_text})", unsafe_allow_html=True)
+    
