@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Load the fixture CSV
 fixtures = pd.read_csv('aleague-men-2024-UTC.csv')
@@ -63,21 +62,17 @@ def update_ladder(user_results):
         # Update Goal Difference
         ladder['GD'] = ladder['GF'] - ladder['GA']
 
-# Function to create a table image
-def create_ladder_image(ladder):
-    fig, ax = plt.subplots(figsize=(10, len(ladder) * 0.5))  # Adjust size as needed
-    ax.axis('tight')
-    ax.axis('off')
-    
-    # Create a table from the DataFrame
-    tbl = ax.table(cellText=ladder.values, colLabels=ladder.columns, loc='center', cellLoc='center', colWidths=[0.2] * len(ladder.columns))
-    tbl.auto_set_font_size(False)
-    tbl.set_fontsize(10)
-    tbl.scale(1.2, 1.2)  # Adjust scaling as needed
+# Function to sort the ladder based on A-League rules
+def sort_ladder():
+    # Sort by points, goal difference, goals for, wins, etc.
+    ladder_sorted = ladder.sort_values(
+        by=['PTS', 'GD', 'GF', 'W'],
+        ascending=[False, False, False, False]
+    ).reset_index(drop=True)
 
-    # Save the image
-    plt.savefig("ladder_image.png", bbox_inches='tight', dpi=300)
-    plt.close(fig)
+    # Add current position
+    ladder_sorted.insert(0, 'Position', range(1, len(ladder_sorted) + 1))
+    return ladder_sorted
 
 # Streamlit UI
 st.title("A-League Ladder Predictor")
@@ -112,23 +107,5 @@ if st.button("Update Ladder"):
     update_ladder(user_results)
     
     # Display the updated ladder as a styled DataFrame
-    st.dataframe(ladder.sort_values(by='PTS', ascending=False))
-
-    # Create the ladder image
-    create_ladder_image(ladder)
-
-    # Share button for X.com
-    tweet_text = "Check out my A-League ladder predictions! #ALeague"
-    tweet_url = f"https://x.com/intent/tweet?text={tweet_text}"
-
-    # Download link for the image
-    with open("ladder_image.png", "rb") as file:
-        btn = st.download_button(
-            label="Download Ladder Image",
-            data=file,
-            file_name="ladder_image.png",
-            mime="image/png"
-        )
-
-    st.markdown(f"[Share on X.com](https://x.com/intent/tweet?text={tweet_text})", unsafe_allow_html=True)
-    
+    sorted_ladder = sort_ladder()
+    st.dataframe(sorted_ladder)
