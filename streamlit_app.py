@@ -70,8 +70,6 @@ def sort_ladder():
         ascending=[False, False, False, False]
     ).reset_index(drop=True)
 
-    # Add current position
-    ladder_sorted.insert(0, 'Position', range(1, len(ladder_sorted) + 1))
     return ladder_sorted
 
 # Streamlit UI
@@ -109,5 +107,5 @@ if st.button("Update Ladder"):
     # Display the updated ladder as a styled DataFrame
     sorted_ladder = sort_ladder()
 
-    # Display all teams, ensuring no duplicate columns
-    st.dataframe(sorted_ladder, height=500)  # Set height to accommodate all teams
+    # Display all teams without the extra index column
+    st.dataframe(sorted_ladder.reset_index(drop=True).style.hide_index(), height=500)  # Set height to accommodate all teams
