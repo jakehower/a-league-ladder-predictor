@@ -108,4 +108,4 @@ if st.button("Update Ladder"):
     
     # Display the updated ladder as a styled DataFrame
     sorted_ladder = sort_ladder()
-    st.dataframe(sorted_ladder, height=600)  # Set height to accommodate all teams
+    st.dataframe(sorted_ladder, height=500)  # Set height to accommodate all teams
