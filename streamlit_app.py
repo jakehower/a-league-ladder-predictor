@@ -109,5 +109,5 @@ if st.button("Update Ladder"):
     # Display the updated ladder as a styled DataFrame
     sorted_ladder = sort_ladder()
 
-    # Display all teams, including those with zero matches played
+    # Display all teams, ensuring no duplicate columns
     st.dataframe(sorted_ladder, height=500)  # Set height to accommodate all teams
