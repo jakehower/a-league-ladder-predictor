@@ -22,6 +22,9 @@ ladder = pd.DataFrame({
     'LAST 5': [''] * len(teams)  # Initialize with empty strings
 })
 
+# Get the maximum number of rounds from the CSV
+max_rounds = fixtures['Round Number'].max()
+
 # Function to update the ladder based on user input
 def update_ladder(user_results):
     global ladder
@@ -76,24 +79,24 @@ def sort_ladder():
 st.title("A-League Ladder Predictor")
 
 # User input for expected results
-rounds = st.number_input("Enter number of rounds to simulate:", min_value=1, max_value=10)
+rounds = st.number_input("Enter number of rounds to simulate:", min_value=1, max_value=max_rounds)
 
 user_results = []
-for round_number in range(rounds):
+for round_number in range(1, rounds + 1):  # Start from 1
     st.markdown("---")  # Divider before the round title
-    st.subheader(f"Round {round_number + 1}")
+    st.subheader(f"Round {round_number}")
     st.markdown("---")  # Divider after the round title
 
     # Get fixtures for the selected round
-    round_fixtures = fixtures[fixtures['Round Number'] == round_number + 1]
+    round_fixtures = fixtures[fixtures['Round Number'] == round_number]
 
     for index, match in round_fixtures.iterrows():
         home_team = match['Home Team']
         away_team = match['Away Team']
         match_number = match['Match Number']  # Get the Match Number
 
-        # Display the Match Number as smaller text
-        st.markdown(f"<h5>Match {match_number}</h5>", unsafe_allow_html=True)  # Smaller title for the match
+        # Display the Match Number as medium text
+        st.markdown(f"<h5>Match {match_number}</h5>", unsafe_allow_html=True)  # Medium title for the match
 
         # Create two columns for scores
         col1, col2 = st.columns(2)
