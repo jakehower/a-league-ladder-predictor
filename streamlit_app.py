@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import table
 
 # Load the fixture CSV
 fixtures = pd.read_csv('aleague-men-2024-UTC.csv')
@@ -71,7 +70,7 @@ def create_ladder_image(ladder):
     ax.axis('off')
     
     # Create a table from the DataFrame
-    tbl = table(ax, ladder.values, loc='center', colLabels=ladder.columns, cellLoc='center', colWidths=[0.2] * len(ladder.columns))
+    tbl = ax.table(cellText=ladder.values, colLabels=ladder.columns, loc='center', cellLoc='center', colWidths=[0.2] * len(ladder.columns))
     tbl.auto_set_font_size(False)
     tbl.set_fontsize(10)
     tbl.scale(1.2, 1.2)  # Adjust scaling as needed
